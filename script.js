@@ -1,3 +1,20 @@
+// ---------- Expiry Auto Format ----------
+const expiryInput = document.getElementById("expiry");
+
+expiryInput.addEventListener("input", (e) => {
+  let value = e.target.value.replace(/\D/g, "");
+
+  if (value.length >= 2) {
+    let month = value.substring(0, 2);
+    if (month === "00") month = "01";
+    if (parseInt(month) > 12) month = "12";
+    value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
+  }
+
+  e.target.value = value;
+});
+
+// ---------- Luhn Check ----------
 function luhnCheck(num) {
   let arr = num.split('').reverse().map(Number);
   let sum = arr.reduce((acc, val, i) => {
@@ -10,6 +27,7 @@ function luhnCheck(num) {
   return sum % 10 === 0;
 }
 
+// ---------- Card Brand ----------
 function detectBrand(num) {
   if (/^4/.test(num)) return "Visa";
   if (/^5[1-5]/.test(num)) return "MasterCard";
@@ -18,12 +36,11 @@ function detectBrand(num) {
   return "Unknown";
 }
 
+// ---------- Main Validation ----------
 async function validateCard() {
-  const cardInput = document.getElementById("cardNumber");
-  const expiry = document.getElementById("expiry").value.trim();
+  const card = document.getElementById("cardNumber").value.replace(/\D/g, "");
+  const expiry = document.getElementById("expiry").value;
   const result = document.getElementById("result");
-
-  const card = cardInput.value.replace(/\D/g, "");
 
   if (card.length < 13 || card.length > 19) {
     result.innerHTML = "❌ Invalid card length";
@@ -32,6 +49,11 @@ async function validateCard() {
 
   if (!luhnCheck(card)) {
     result.innerHTML = "❌ Failed Luhn check";
+    return;
+  }
+
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+    result.innerHTML = "❌ Invalid expiry format";
     return;
   }
 
@@ -49,10 +71,9 @@ async function validateCard() {
       💳 Brand: ${brand}<br>
       🏦 Bank: ${data.bank?.name || "N/A"}<br>
       🌍 Country: ${data.country?.name || "N/A"}<br>
-      🧾 Type: ${data.type || "N/A"}<br>
-      🔐 Scheme: ${data.scheme || "N/A"}
+      🧾 Type: ${data.type || "N/A"}
     `;
-  } catch (err) {
-    result.innerHTML += "<br>⚠ Unable to fetch BIN info";
+  } catch {
+    result.innerHTML += "<br>⚠ BIN lookup failed";
   }
 }
