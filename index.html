@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Card Validator Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Card Validation Demo</h2>
+
+  <input
+    type="text"
+    id="cardNumber"
+    placeholder="Card Number"
+    inputmode="numeric"
+    maxlength="19"
+  >
+
+  <input
+    type="text"
+    id="expiry"
+    placeholder="MM/YY"
+    maxlength="5"
+  >
+
+  <button onclick="validateCard()">Validate Card</button>
+
+  <div id="result"></div>
+
+  <p class="disclaimer">
+    This tool validates card format and public BIN data only.
+    No card data is stored or used for payments.
+  </p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
