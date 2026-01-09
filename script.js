@@ -1,22 +1,30 @@
-// ---------- Expiry Auto Format ----------
-const expiryInput = document.getElementById("expiry");
+document.addEventListener("DOMContentLoaded", () => {
 
-expiryInput.addEventListener("input", (e) => {
-  let value = e.target.value.replace(/\D/g, "");
+  // ---------- Expiry Auto Format ----------
+  const expiryInput = document.getElementById("expiry");
 
-  if (value.length >= 2) {
-    let month = value.substring(0, 2);
-    if (month === "00") month = "01";
-    if (parseInt(month) > 12) month = "12";
-    value = month + (value.length > 2 ? "/" + value.substring(2, 4) : "");
-  }
+  expiryInput.addEventListener("input", (e) => {
+    let value = e.target.value.replace(/\D/g, "");
 
-  e.target.value = value;
+    if (value.length >= 2) {
+      let month = value.substring(0, 2);
+
+      if (month === "00") month = "01";
+      if (parseInt(month) > 12) month = "12";
+
+      value =
+        month +
+        (value.length > 2 ? "/" + value.substring(2, 4) : "");
+    }
+
+    e.target.value = value;
+  });
+
 });
 
 // ---------- Luhn Check ----------
 function luhnCheck(num) {
-  let arr = num.split('').reverse().map(Number);
+  let arr = num.split("").reverse().map(Number);
   let sum = arr.reduce((acc, val, i) => {
     if (i % 2 !== 0) {
       val *= 2;
@@ -27,7 +35,7 @@ function luhnCheck(num) {
   return sum % 10 === 0;
 }
 
-// ---------- Card Brand ----------
+// ---------- Card Brand Detection ----------
 function detectBrand(num) {
   if (/^4/.test(num)) return "Visa";
   if (/^5[1-5]/.test(num)) return "MasterCard";
