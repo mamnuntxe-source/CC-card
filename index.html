@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Card Validator Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Legal card format validator with BIN lookup demo">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,28 +12,36 @@
 <div class="container">
   <h2>Card Validation Demo</h2>
 
+  <!-- Card Number -->
   <input
     type="text"
     id="cardNumber"
     placeholder="Card Number"
     inputmode="numeric"
     maxlength="19"
+    autocomplete="off"
   >
 
+  <!-- Expiry Date (Auto Slash MM/YY) -->
   <input
     type="text"
     id="expiry"
     placeholder="MM/YY"
     maxlength="5"
+    inputmode="numeric"
+    autocomplete="off"
   >
 
+  <!-- Action Button -->
   <button onclick="validateCard()">Validate Card</button>
 
+  <!-- Result -->
   <div id="result"></div>
 
+  <!-- Legal Disclaimer -->
   <p class="disclaimer">
-    This tool validates card format and public BIN data only.
-    No card data is stored or used for payments.
+    This tool validates card number format and public BIN information only.
+    No card data is stored, processed, or used for real payments.
   </p>
 </div>
 
